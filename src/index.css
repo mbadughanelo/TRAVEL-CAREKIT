@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --accent: #00f2ff;
+    --accent-glow: rgba(0, 242, 255, 0.4);
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-card: rgba(13, 18, 30, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-hover: rgba(0, 242, 255, 0.25);
+  }
+
+  body {
+    @apply antialiased bg-[#030305] text-slate-200;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color-scheme: dark;
+    background-color: #030305;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    color: #ffffff;
+  }
+}
+
+.glass-panel {
+  background: var(--glass-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+}
+
+.glass-panel:hover {
+  border-color: var(--glass-border-hover);
+}
+
+.glass-panel-interactive {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-panel-interactive:hover {
+  background: rgba(20, 30, 55, 0.75);
+  border-color: rgba(0, 242, 255, 0.3);
+  box-shadow: 0 0 25px rgba(0, 242, 255, 0.08);
+}
+
+.glow-text {
+  text-shadow: 0 0 12px rgba(0, 242, 255, 0.5);
+}
+
+.glow-emerald {
+  text-shadow: 0 0 12px rgba(74, 222, 128, 0.5);
+}
+
+.orbit-ring {
+  border: 1px solid rgba(0, 242, 255, 0.07);
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Custom scrollbars for dark immersive UI */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(3, 3, 5, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 242, 255, 0.4);
+}
+
+/* Custom Markdown formatting in Assistant */
+.markdown-body {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.markdown-body p {
+  margin-bottom: 0.6rem;
+}
+
+.markdown-body p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body strong {
+  font-weight: 700;
+  color: #00f2ff;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.markdown-body ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.markdown-body li {
+  margin-bottom: 0.25rem;
+}
+
+.markdown-body h3, .markdown-body h4 {
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.markdown-body a {
+  color: #00f2ff;
+  text-decoration: underline;
+}
+
+/* Print utility */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #print-modal, #print-modal * {
+    visibility: visible;
+  }
+  header, aside, #mobile-bottom-navigation, #demo-mode-banner, #regulatory-banner-compact, .ambient-glow-container {
+    display: none !important;
+  }
+}
+

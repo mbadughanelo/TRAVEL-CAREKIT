@@ -1,0 +1,6 @@
+{
+  "name": "NursePath",
+  "description": "International Nurse Career Navigator - Plan, track, and navigate registration pathways for the UK, USA, Canada, and Australia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
