@@ -153,9 +153,8 @@ export function App() {
   };
 
   const handleAddTask = (newTask: RoadmapTask) => {
-    const updated = [...tasks, newTask];
-    StorageManager.saveRoadmapTasks(updated);
-    setTasks(updated);
+    StorageManager.addRoadmapTask(newTask);
+    setTasks(prev => [...prev.filter(t => t.id !== newTask.id), newTask]);
   };
 
   // Document updater
@@ -165,9 +164,8 @@ export function App() {
   };
 
   const handleAddDocument = (newDoc: DocumentItem) => {
-    const updated = [...documents, newDoc];
-    StorageManager.saveDocuments(updated);
-    setDocuments(updated);
+    StorageManager.addDocument(newDoc);
+    setDocuments(prev => [...prev.filter(d => d.id !== newDoc.id), newDoc]);
   };
 
   // Cost updater
@@ -177,9 +175,8 @@ export function App() {
   };
 
   const handleAddCost = (newCost: CostItem) => {
-    const updated = [...costs, newCost];
-    StorageManager.saveCosts(updated);
-    setCosts(updated);
+    StorageManager.addCost(newCost);
+    setCosts(prev => [...prev.filter(c => c.id !== newCost.id), newCost]);
   };
 
   const handleDeleteCost = (costId: string) => {
@@ -194,9 +191,8 @@ export function App() {
   };
 
   const handleAddApplication = (newApp: ApplicationItem) => {
-    const updated = [...applications, newApp];
-    StorageManager.saveApplications(updated);
-    setApplications(updated);
+    StorageManager.addApplication(newApp);
+    setApplications(prev => [...prev.filter(a => a.id !== newApp.id), newApp]);
   };
 
   const handleDeleteApplication = (appId: string) => {

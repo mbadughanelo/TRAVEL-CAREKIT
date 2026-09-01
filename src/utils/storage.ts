@@ -5,7 +5,8 @@ import {
   DocumentItem, 
   CostItem, 
   ApplicationItem, 
-  CountryCode 
+  CountryCode,
+  OfficialSource
 } from '../types';
 import { 
   DEMO_USER_PROFILE, 
@@ -15,6 +16,7 @@ import {
   DEMO_COST_ITEMS, 
   DEMO_APPLICATIONS 
 } from '../data/demoData';
+import { OFFICIAL_SOURCES } from '../data/regulatoryData';
 import { generatePersonalizedPathway } from './ruleEngine';
 
 const STORAGE_KEYS = {
@@ -45,8 +47,7 @@ export class StorageManager {
       this.saveApplications(DEMO_APPLICATIONS);
     } else {
       localStorage.removeItem(STORAGE_KEYS.IS_DEMO_MODE);
-      // Clean up demo items if any
-      this.clearAll();
+      // DO NOT clear all user data when leaving demo mode!
     }
   }
 
@@ -108,9 +109,10 @@ export class StorageManager {
     const pathway = generatePersonalizedPathway(profile, newJourney);
     newJourney.pathwayVariant = pathway.pathwayVariant;
 
-    // Save journey
+    // Save journey while preserving existing ones
     const existingJourneys = this.getJourneys();
-    this.saveJourneys([...existingJourneys, newJourney]);
+    const filteredExistingJourneys = existingJourneys.filter(j => j.id !== newJourneyId);
+    this.saveJourneys([...filteredExistingJourneys, newJourney]);
 
     // Update active journey in user profile
     const updatedProfile: UserProfile = {
@@ -120,7 +122,7 @@ export class StorageManager {
     };
     this.saveUserProfile(updatedProfile);
 
-    // Save tasks, documents, costs
+    // Save tasks, documents, costs while preserving all other journeys
     const existingTasks = this.getRoadmapTasks().filter(t => t.journeyId !== newJourneyId);
     this.saveRoadmapTasks([...existingTasks, ...pathway.tasks]);
 
@@ -147,6 +149,7 @@ export class StorageManager {
     }
   }
 
+  // --- ROADMAP TASKS (Multi-journey safe) ---
   static getRoadmapTasks(journeyId?: string): RoadmapTask[] {
     const raw = localStorage.getItem(STORAGE_KEYS.ROADMAP_TASKS);
     if (!raw) return [];
@@ -165,15 +168,29 @@ export class StorageManager {
     localStorage.setItem(STORAGE_KEYS.ROADMAP_TASKS, JSON.stringify(tasks));
   }
 
+  static addRoadmapTask(newTask: RoadmapTask): void {
+    const allTasks = this.getRoadmapTasks();
+    const filtered = allTasks.filter(t => t.id !== newTask.id);
+    this.saveRoadmapTasks([...filtered, newTask]);
+  }
+
   static updateRoadmapTask(updatedTask: RoadmapTask): void {
     const tasks = this.getRoadmapTasks();
     const idx = tasks.findIndex(t => t.id === updatedTask.id);
     if (idx >= 0) {
       tasks[idx] = updatedTask;
       this.saveRoadmapTasks(tasks);
+    } else {
+      this.saveRoadmapTasks([...tasks, updatedTask]);
     }
   }
 
+  static deleteRoadmapTask(taskId: string): void {
+    const tasks = this.getRoadmapTasks().filter(t => t.id !== taskId);
+    this.saveRoadmapTasks(tasks);
+  }
+
+  // --- DOCUMENTS (Multi-journey safe) ---
   static getDocuments(journeyId?: string): DocumentItem[] {
     const raw = localStorage.getItem(STORAGE_KEYS.DOCUMENTS);
     if (!raw) return [];
@@ -192,15 +209,29 @@ export class StorageManager {
     localStorage.setItem(STORAGE_KEYS.DOCUMENTS, JSON.stringify(docs));
   }
 
+  static addDocument(newDoc: DocumentItem): void {
+    const allDocs = this.getDocuments();
+    const filtered = allDocs.filter(d => d.id !== newDoc.id);
+    this.saveDocuments([...filtered, newDoc]);
+  }
+
   static updateDocument(updatedDoc: DocumentItem): void {
     const docs = this.getDocuments();
     const idx = docs.findIndex(d => d.id === updatedDoc.id);
     if (idx >= 0) {
       docs[idx] = updatedDoc;
       this.saveDocuments(docs);
+    } else {
+      this.saveDocuments([...docs, updatedDoc]);
     }
   }
 
+  static deleteDocument(docId: string): void {
+    const docs = this.getDocuments().filter(d => d.id !== docId);
+    this.saveDocuments(docs);
+  }
+
+  // --- COSTS (Multi-journey safe) ---
   static getCosts(journeyId?: string): CostItem[] {
     const raw = localStorage.getItem(STORAGE_KEYS.COSTS);
     if (!raw) return [];
@@ -219,12 +250,20 @@ export class StorageManager {
     localStorage.setItem(STORAGE_KEYS.COSTS, JSON.stringify(costs));
   }
 
+  static addCost(newCost: CostItem): void {
+    const allCosts = this.getCosts();
+    const filtered = allCosts.filter(c => c.id !== newCost.id);
+    this.saveCosts([...filtered, newCost]);
+  }
+
   static updateCost(updatedCost: CostItem): void {
     const costs = this.getCosts();
     const idx = costs.findIndex(c => c.id === updatedCost.id);
     if (idx >= 0) {
       costs[idx] = updatedCost;
       this.saveCosts(costs);
+    } else {
+      this.saveCosts([...costs, updatedCost]);
     }
   }
 
@@ -233,6 +272,7 @@ export class StorageManager {
     this.saveCosts(costs);
   }
 
+  // --- APPLICATIONS (Multi-journey safe) ---
   static getApplications(journeyId?: string): ApplicationItem[] {
     const raw = localStorage.getItem(STORAGE_KEYS.APPLICATIONS);
     if (!raw) return [];
@@ -251,18 +291,49 @@ export class StorageManager {
     localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(apps));
   }
 
+  static addApplication(newApp: ApplicationItem): void {
+    const allApps = this.getApplications();
+    const filtered = allApps.filter(a => a.id !== newApp.id);
+    this.saveApplications([...filtered, newApp]);
+  }
+
   static updateApplication(updatedApp: ApplicationItem): void {
     const apps = this.getApplications();
     const idx = apps.findIndex(a => a.id === updatedApp.id);
     if (idx >= 0) {
       apps[idx] = updatedApp;
       this.saveApplications(apps);
+    } else {
+      this.saveApplications([...apps, updatedApp]);
     }
   }
 
   static deleteApplication(appId: string): void {
     const apps = this.getApplications().filter(a => a.id !== appId);
     this.saveApplications(apps);
+  }
+
+  // --- ADMIN REGULATORY SOURCES PERSISTENCE ---
+  static getAdminRegulatorySources(): OfficialSource[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.ADMIN_REGULATORY);
+    if (!raw) return OFFICIAL_SOURCES;
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+      return OFFICIAL_SOURCES;
+    } catch {
+      return OFFICIAL_SOURCES;
+    }
+  }
+
+  static saveAdminRegulatorySources(sources: OfficialSource[]): void {
+    localStorage.setItem(STORAGE_KEYS.ADMIN_REGULATORY, JSON.stringify(sources));
+  }
+
+  static resetAdminRegulatorySources(): void {
+    localStorage.removeItem(STORAGE_KEYS.ADMIN_REGULATORY);
   }
 
   static clearAll(): void {

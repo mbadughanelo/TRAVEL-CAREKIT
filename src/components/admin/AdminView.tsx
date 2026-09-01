@@ -1,23 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Wrench, 
   Save, 
   ExternalLink, 
-  Check 
+  Check,
+  RotateCcw
 } from 'lucide-react';
 import { COUNTRIES_DATA, OFFICIAL_SOURCES } from '../../data/regulatoryData';
+import { StorageManager } from '../../utils/storage';
 
 export const AdminView: React.FC = () => {
-  const [sources, setSources] = useState(OFFICIAL_SOURCES);
+  const [sources, setSources] = useState(() => {
+    const saved = StorageManager.getAdminRegulatorySources();
+    return saved.length > 0 ? saved : OFFICIAL_SOURCES;
+  });
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  useEffect(() => {
+    const saved = StorageManager.getAdminRegulatorySources();
+    if (saved.length > 0) {
+      setSources(saved);
+    }
+  }, []);
 
   const handleUpdateVerificationDate = (id: string, newDate: string) => {
     setSources(prev => prev.map(s => s.id === id ? { ...s, lastVerifiedDate: newDate } : s));
+    setHasUnsavedChanges(true);
   };
 
   const handleSaveAll = () => {
+    StorageManager.saveAdminRegulatorySources(sources);
+    setHasUnsavedChanges(false);
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
+  };
+
+  const handleResetToDefaults = () => {
+    if (window.confirm('Reset all regulatory sources to hardcoded system defaults?')) {
+      setSources(OFFICIAL_SOURCES);
+      StorageManager.saveAdminRegulatorySources(OFFICIAL_SOURCES);
+      setHasUnsavedChanges(false);
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 2000);
+    }
   };
 
   return (
@@ -35,17 +61,31 @@ export const AdminView: React.FC = () => {
             Regulatory Data Maintenance
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Audit regulatory rules, official URLs, and last verified dates
+            Audit regulatory rules, official URLs, and last verified dates with persistent storage
           </p>
         </div>
 
-        <button
-          onClick={handleSaveAll}
-          className="flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm rounded-xl transition shadow-[0_0_15px_rgba(0,242,255,0.4)] cursor-pointer"
-        >
-          {saveSuccess ? <Check className="w-4 h-4 text-slate-950" /> : <Save className="w-4 h-4 text-slate-950" />}
-          <span>{saveSuccess ? 'Changes Saved!' : 'Save Regulatory Audit'}</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleResetToDefaults}
+            title="Reset to defaults"
+            className="flex items-center gap-1.5 px-3 py-2.5 bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 text-xs rounded-xl transition border border-white/10 cursor-pointer"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Reset</span>
+          </button>
+          <button
+            onClick={handleSaveAll}
+            className={`flex items-center gap-2 px-5 py-2.5 font-bold text-xs sm:text-sm rounded-xl transition cursor-pointer ${
+              hasUnsavedChanges 
+                ? 'bg-cyan-400 hover:bg-cyan-300 text-slate-950 shadow-[0_0_20px_rgba(0,242,255,0.6)] animate-pulse' 
+                : 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(0,242,255,0.4)]'
+            }`}
+          >
+            {saveSuccess ? <Check className="w-4 h-4 text-slate-950" /> : <Save className="w-4 h-4 text-slate-950" />}
+            <span>{saveSuccess ? 'Changes Saved Permanently!' : hasUnsavedChanges ? 'Save Changes' : 'Save Regulatory Audit'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Overview Cards */}

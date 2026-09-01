@@ -1029,6 +1029,134 @@ export function generatePersonalizedPathway(
           order: 4
         }
       ];
+    } else if (isFL) {
+      pathwayVariant = 'Florida Board of Nursing (FBON) RN Licensure by Examination Pathway';
+      specialNotices.push(
+        'Florida Board of Nursing requires electronic Livescan fingerprint background screening via an FDLE approved vendor with Florida ORI number (EDOH4420Z).',
+        'Florida accepts credential evaluation reports from approved agencies including Josef Silny & Associates, CGFNS CES, SpanTran, and IERF.',
+        'A US Social Security Number is required for final Florida license activation; examination approval (ATT) can be issued prior to having an SSN.'
+      );
+
+      tasks = [
+        {
+          id: `${jId}-task-1`,
+          journeyId: jId,
+          stage: 'research',
+          title: 'Review Florida Board of Nursing (FBON) Foreign Educated Requirements',
+          description: 'Review Florida MQA guidelines for internationally educated registered nurse applicants, approved credential evaluators, and English proficiency standards.',
+          status: 'Not Started',
+          isRequired: true,
+          regulatorName: 'Florida Board of Nursing',
+          officialSourceName: 'Florida Board of Nursing Examination Guide',
+          officialSourceUrl: 'https://floridasnursing.gov/licensing/licensed-practical-nurse-registered-nurse-by-examination/',
+          lastVerifiedDate: 'August 2026',
+          order: 1
+        },
+        {
+          id: `${jId}-task-2`,
+          journeyId: jId,
+          stage: 'credentials',
+          title: 'Submit Foreign Credential Evaluation Report to Florida BON',
+          description: 'Order a course-by-course credentials evaluation from an FBON-approved agency: Josef Silny & Associates, CGFNS CES, SpanTran, or IERF.',
+          status: 'Not Started',
+          isRequired: true,
+          regulatorName: 'Approved Evaluator / Florida BON',
+          officialSourceName: 'Florida Approved Credential Evaluation Services',
+          officialSourceUrl: 'https://floridasnursing.gov/licensing/licensed-practical-nurse-registered-nurse-by-examination/',
+          lastVerifiedDate: 'August 2026',
+          order: 2
+        },
+        {
+          id: `${jId}-task-3`,
+          journeyId: jId,
+          stage: 'credentials',
+          title: 'Provide English Language Proficiency Evidence',
+          description: 'Submit passing score for IELTS Academic (6.5 overall, 7.0 speaking), TOEFL iBT (83 total, 26 speaking), or proof of nursing education completed in English.',
+          status: 'Not Started',
+          isRequired: true,
+          regulatorName: 'Florida Board of Nursing',
+          officialSourceName: 'Florida BON English Requirements',
+          officialSourceUrl: 'https://floridasnursing.gov/licensing/licensed-practical-nurse-registered-nurse-by-examination/',
+          lastVerifiedDate: 'August 2026',
+          order: 3
+        },
+        {
+          id: `${jId}-task-4`,
+          journeyId: jId,
+          stage: 'application',
+          title: 'Submit Florida BON Online Licensure Application via MQA Portal ($110)',
+          description: 'Submit your formal Florida RN Licensure by Examination application through the Florida Department of Health MQA Online Services portal.',
+          status: 'Not Started',
+          isRequired: true,
+          regulatorName: 'Florida Board of Nursing (MQA)',
+          officialSourceName: 'Florida MQA Online Services',
+          officialSourceUrl: 'https://floridasnursing.gov/licensing/licensed-practical-nurse-registered-nurse-by-examination/',
+          lastVerifiedDate: 'August 2026',
+          estimatedFee: 110,
+          currency: 'USD',
+          order: 4
+        },
+        {
+          id: `${jId}-task-5`,
+          journeyId: jId,
+          stage: 'application',
+          title: 'Complete Florida Electronic Livescan Fingerprinting (ORI # EDOH4420Z)',
+          description: 'Submit electronic fingerprints through a Florida Department of Law Enforcement (FDLE) approved Livescan vendor using Florida Board ORI code EDOH4420Z.',
+          status: 'Not Started',
+          isRequired: true,
+          regulatorName: 'FDLE / Florida BON',
+          officialSourceName: 'Florida Background Screening Portal',
+          officialSourceUrl: 'https://floridasnursing.gov/licensing/licensed-practical-nurse-registered-nurse-by-examination/',
+          lastVerifiedDate: 'August 2026',
+          estimatedFee: 85,
+          currency: 'USD',
+          order: 5
+        },
+        {
+          id: `${jId}-task-6`,
+          journeyId: jId,
+          stage: 'exams',
+          title: 'Register with Pearson VUE for NCLEX-RN & receive Florida ATT ($200)',
+          description: 'Register with Pearson VUE for the NCLEX-RN ($200 fee) and receive your Authorization to Test (ATT) from the Florida Board of Nursing.',
+          status: 'Not Started',
+          isRequired: true,
+          regulatorName: 'Pearson VUE / NCSBN',
+          officialSourceName: 'NCSBN NCLEX Portal',
+          officialSourceUrl: 'https://www.ncsbn.org/nclex.page',
+          lastVerifiedDate: 'August 2026',
+          estimatedFee: 200,
+          currency: 'USD',
+          order: 6
+        },
+        {
+          id: `${jId}-task-7`,
+          journeyId: jId,
+          stage: 'licence',
+          title: 'Pass NCLEX-RN and submit SSN for Florida RN License Activation',
+          description: 'Sit for and pass the NCLEX-RN examination. Provide your US Social Security Number (SSN) to Florida BON for final issuance of your permanent Florida RN License.',
+          status: 'Not Started',
+          isRequired: true,
+          regulatorName: 'Florida Board of Nursing',
+          officialSourceName: 'Florida BON License Portal',
+          officialSourceUrl: 'https://floridasnursing.gov/licensing/licensed-practical-nurse-registered-nurse-by-examination/',
+          lastVerifiedDate: 'August 2026',
+          order: 7
+        },
+        {
+          id: `${jId}-task-8`,
+          journeyId: jId,
+          stage: 'employment',
+          title: 'Obtain US Healthcare Hospital Sponsorship & CGFNS VisaScreen',
+          description: 'Secure hospital employer sponsorship in Florida (EB-3 visa or relevant work visa) and complete CGFNS VisaScreen certification for US immigration.',
+          status: 'Not Started',
+          isRequired: true,
+          regulatorName: 'CGFNS / Florida Healthcare Employer',
+          officialSourceName: 'CGFNS VisaScreen Portal',
+          officialSourceUrl: 'https://www.cgfns.org/services/certification/visascreen-visa-credentials-assessment/',
+          lastVerifiedDate: 'August 2026',
+          order: 8
+        }
+      ];
     } else {
       // Other US State (Generic)
       pathwayVariant = 'Generic US State Board of Nursing Pathway';
@@ -1102,44 +1230,49 @@ export function generatePersonalizedPathway(
     documents = [
       { id: `${jId}-doc-1`, journeyId: jId, name: 'Valid International Passport', category: 'Identity', description: 'Primary identification.', isApplicable: true, status: 'Need to Request' },
       { id: `${jId}-doc-2`, journeyId: jId, name: 'Official Nursing Transcripts & Degree Certificate', category: 'Nursing Education', description: 'Sent directly from nursing institution.', isApplicable: true, status: 'Need to Request' },
-      { id: `${jId}-doc-3`, journeyId: jId, name: 'Foreign Credential Evaluation Report (CES)', category: 'Regulatory', description: 'From CGFNS, ERES, or Board-approved agency.', isApplicable: true, status: 'Need to Request' },
+      { id: `${jId}-doc-3`, journeyId: jId, name: 'Foreign Credential Evaluation Report (CES)', category: 'Regulatory', description: 'From CGFNS, Josef Silny, SpanTran, or Board-approved agency.', isApplicable: true, status: 'Need to Request' },
       { id: `${jId}-doc-4`, journeyId: jId, name: 'Verification of Professional Licensure (Good Standing)', category: 'Nursing Registration', description: 'Direct verification from all licensing boards.', isApplicable: true, status: 'Need to Request' },
       { id: `${jId}-doc-5`, journeyId: jId, name: 'Fingerprint Screening Card / Electronic LiveScan', category: 'Regulatory', description: 'FBI and state criminal background check.', isApplicable: true, status: 'Need to Request' },
       { id: `${jId}-doc-6`, journeyId: jId, name: 'English Competency Test Score (if required)', category: 'English', description: 'IELTS / TOEFL score report.', isApplicable: true, status: 'Need to Request' }
     ];
 
     costs = [
-      { id: `${jId}-cost-1`, journeyId: jId, item: 'Credential Evaluation Service (CES Report)', category: 'Credential Evaluation', estimatedCost: 385, currency: 'USD', amountPaid: 0, paymentStatus: 'Planned', lastVerifiedDate: 'August 2026' },
-      { id: `${jId}-cost-2`, journeyId: jId, item: 'State Board of Nursing Application Fee', category: 'Regulator Fees', estimatedCost: isTexas ? 75 : isNY ? 143 : isCA ? 750 : 150, currency: 'USD', amountPaid: 0, paymentStatus: 'Planned', lastVerifiedDate: 'August 2026' },
+      { id: `${jId}-cost-1`, journeyId: jId, item: 'Credential Evaluation Service (CES / Josef Silny)', category: 'Credential Evaluation', estimatedCost: 385, currency: 'USD', amountPaid: 0, paymentStatus: 'Planned', lastVerifiedDate: 'August 2026' },
+      { id: `${jId}-cost-2`, journeyId: jId, item: 'State Board of Nursing Application Fee', category: 'Regulator Fees', estimatedCost: isTexas ? 75 : isNY ? 143 : isCA ? 750 : isFL ? 110 : 150, currency: 'USD', amountPaid: 0, paymentStatus: 'Planned', lastVerifiedDate: 'August 2026' },
       { id: `${jId}-cost-3`, journeyId: jId, item: 'NCLEX-RN Registration (Pearson VUE)', category: 'Examinations', estimatedCost: 200, currency: 'USD', amountPaid: 0, paymentStatus: 'Planned', lastVerifiedDate: 'August 2026' },
       { id: `${jId}-cost-4`, journeyId: jId, item: 'NCLEX International Scheduling Surcharge (if tested outside US)', category: 'Examinations', estimatedCost: 150, currency: 'USD', amountPaid: 0, paymentStatus: 'Planned', lastVerifiedDate: 'August 2026' },
-      { id: `${jId}-cost-5`, journeyId: jId, item: 'FBI / State Fingerprint Background Screening', category: 'Police / Background Checks', estimatedCost: 65, currency: 'USD', amountPaid: 0, paymentStatus: 'Planned', lastVerifiedDate: 'August 2026' }
+      { id: `${jId}-cost-5`, journeyId: jId, item: 'FBI / State Fingerprint Background Screening', category: 'Police / Background Checks', estimatedCost: isFL ? 85 : 65, currency: 'USD', amountPaid: 0, paymentStatus: 'Planned', lastVerifiedDate: 'August 2026' }
     ];
   }
 
   // 4. AUSTRALIA (NMBA / Ahpra)
   else if (destination === 'Australia') {
     const isComparableCountry = (country: string) => {
-      const c = country.toLowerCase();
+      const c = (country || '').toLowerCase();
       return (
         c.includes('united kingdom') || c.includes('uk') ||
         c.includes('ireland') ||
         c.includes('united states') || c.includes('usa') || c.includes('us') ||
         c.includes('singapore') ||
         c.includes('spain') ||
-        c.includes('british columbia') || c.includes('ontario')
+        c.includes('new zealand') || c.includes('nz') ||
+        c.includes('british columbia') || c.includes('ontario') || c.includes('canada')
       );
     };
 
-    const hasComparableReg = registrations.some(r => isComparableCountry(r.country));
-    const hasComparablePractice = isComparableCountry(currentPractice);
-    const hasSufficientExperience = experienceYears >= 1; // 1,800 hours approx 1+ full-time year
+    // Official Ahpra streamlined route requires at least 1,800 RN practice hours in an approved comparable jurisdiction since January 2017
+    const hasComparableReg = registrations.some(r => isComparableCountry(r.country) && (r.status === 'Active' || r.status === 'Pending'));
+    const isPracticeInComparable = isComparableCountry(currentPractice);
+    const hasSufficientPracticeHours = experienceYears >= 1 && (profile.currentlyPractisingClinically !== false);
+    
+    // Candidate qualifies for potential streamlined assessment if they hold registration AND have completed 1,800+ practice hours in an approved comparable jurisdiction
+    const qualifiesStreamlined = (hasComparableReg || isPracticeInComparable) && isPracticeInComparable && hasSufficientPracticeHours;
 
-    if ((hasComparableReg || hasComparablePractice) && hasSufficientExperience) {
+    if (qualifiesStreamlined) {
       pathwayVariant = 'Pathway A — Potential Streamlined IQRN Assessment (NMBA)';
       specialNotices.push(
-        'Potential streamlined pathway identified: Your registration/practice history suggests that you should check the NMBA streamlined IQRN standard before starting the standard assessment route. This is not a determination of eligibility.',
-        'The NMBA streamlined IQRN route considers 1,800+ hours of RN practice in an approved comparable jurisdiction (e.g. UK, Ireland, USA, Canada-BC/ON, Singapore, Spain) since 2017. Verify your qualifications directly with Ahpra.'
+        'Potential streamlined pathway identified: Your clinical practice history indicates you may meet the NMBA streamlined IQRN standard (requiring at least 1,800 RN practice hours in an approved comparable jurisdiction since January 2017). This is an advisory assessment, not a formal determination.',
+        'Official approved comparable jurisdictions: UK, Ireland, USA, Canada (BC/Ontario), Singapore, Spain, and New Zealand. Always complete the official Ahpra Self-Check to confirm your stream.'
       );
 
       tasks = [
@@ -1155,15 +1288,15 @@ export function generatePersonalizedPathway(
           officialSourceName: 'Ahpra IQNM Assessment Portal',
           officialSourceUrl: 'https://www.nursingmidwiferyboard.gov.au/Registration-and-Endorsement/International.aspx',
           lastVerifiedDate: 'August 2026',
-          warningNote: 'Check Streamlined criteria before initiating Outcomes-Based Assessment.',
+          warningNote: 'Check Streamlined criteria (1,800+ practice hours since Jan 2017) before initiating Outcomes-Based Assessment.',
           order: 1
         },
         {
           id: `${jId}-task-2`,
           journeyId: jId,
           stage: 'credentials',
-          title: 'Gather proof of 1,800+ hours RN practice in comparable jurisdiction',
-          description: 'Obtain official Statement of Service letters from healthcare employers confirming clinical hours, dates, and RN role.',
+          title: 'Gather proof of 1,800+ hours RN practice in comparable jurisdiction since Jan 2017',
+          description: 'Obtain official Statement of Service letters from healthcare employers in an approved comparable jurisdiction confirming at least 1,800 clinical RN hours completed since January 2017.',
           status: 'Not Started',
           isRequired: true,
           regulatorName: 'Ahpra / NMBA',
@@ -1176,8 +1309,8 @@ export function generatePersonalizedPathway(
           id: `${jId}-task-3`,
           journeyId: jId,
           stage: 'credentials',
-          title: 'Provide English language evidence (IELTS 7.0 all bands / OET B / PTE 65)',
-          description: 'Demonstrate English competency via IELTS Academic, OET, PTE Academic, or qualifying primary language pathway.',
+          title: 'Provide English language evidence (IELTS 7.0 all bands / OET B / PTE Overall 65: L66, R66, S66, W56)',
+          description: 'Demonstrate English competency via IELTS Academic (7.0 all components), OET (B all components), PTE Academic (Overall 65: Listening 66, Reading 66, Speaking 66, Writing 56 - updated April 2026 NMBA standard), or qualifying primary language pathway.',
           status: 'Not Started',
           isRequired: true,
           regulatorName: 'NMBA',
@@ -1301,8 +1434,8 @@ export function generatePersonalizedPathway(
           id: `${jId}-task-5`,
           journeyId: jId,
           stage: 'credentials',
-          title: 'Demonstrate NMBA English Language Standard (IELTS 7.0 all bands / OET / PTE)',
-          description: 'Provide valid English language examination test results or approved educational evidence.',
+          title: 'Demonstrate NMBA English Language Standard (IELTS 7.0 / OET B / PTE Overall 65: L66, R66, S66, W56)',
+          description: 'Provide valid English language test results: IELTS Academic (7.0 all bands), OET (B all components), PTE Academic (Overall 65 with min 66 in Listening, Reading, Speaking, and 56 in Writing - updated April 2026 NMBA standard), or approved educational evidence.',
           status: 'Not Started',
           isRequired: true,
           regulatorName: 'NMBA',

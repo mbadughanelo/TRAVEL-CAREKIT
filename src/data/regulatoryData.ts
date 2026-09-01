@@ -173,7 +173,7 @@ export const COUNTRIES_DATA: CountryInfo[] = [
     structure: 'National Centralised Register',
     overview: 'Australia uses a national registration system managed by Ahpra on behalf of the NMBA. International nurses are routed through either the Streamlined Internationally Qualified Registered Nurse (IQRN) assessment or the Outcomes-Based Assessment (OBA) pathway.',
     qualificationRule: 'Requires Australian Bachelor of Nursing equivalent (AQF Level 7). Nurses with diploma qualifications or qualifications lacking concurrent clinical hours are routed to bridging or conversion.',
-    englishRequirements: 'IELTS Academic (7.0 in all 4 bands: L7.0, R7.0, S7.0, W7.0), OET (Grade B in all 4 components), PTE Academic (65 in all components). Test result combination permitted across 2 sittings within 6 months.',
+    englishRequirements: 'IELTS Academic (7.0 in all 4 bands: L7.0, R7.0, S7.0, W7.0), OET (Grade B in all 4 components), PTE Academic (Overall 65: Listening 66, Reading 66, Speaking 66, Writing 56). Test result combination permitted across 2 sittings within 6 months.',
     examRequirements: 'Stream B: NCLEX-RN (MCQ test taken internationally) + Australian RN OSCE (Clinical simulation exam taken at Adelaide Health Simulation Centre, AUD $4,000). Stream A applicants are exempt from exams.',
     visaInformation: 'Employer-sponsored Temporary Skill Shortage (TSS subclass 482 / SID), Skilled Independent Visa (subclass 189), or Skilled Nominated Visa (subclass 190). Requires ANMAC migration skills assessment after or concurrent with Ahpra.',
     typicalTimeline: '6 to 14 months (Stream A: 3-5 months; Stream B with OSCE: 8-14 months)',
@@ -183,11 +183,11 @@ export const COUNTRIES_DATA: CountryInfo[] = [
     englishPolicies: [
       'IELTS Academic: Minimum overall 7.0 and minimum 7.0 in each of the 4 components.',
       'OET: Minimum score of B in each of the 4 components.',
-      'PTE Academic: Minimum overall score of 65 and minimum 65 in each communicative skill.',
+      'PTE Academic: Minimum overall score of 65, with minimum 66 in Listening, 66 in Reading, 66 in Speaking, and 56 in Writing (updated NMBA standard, April 2026).',
       'Primary language pathway (qualifying continuous education in recognised English-speaking countries).'
     ],
     keyWarnings: [
-      'If you have 1,800+ hours of RN practice in an NMBA-approved comparable jurisdiction (e.g. UK, Ireland, USA, Canada-BC/ON, Singapore, Spain) since 2017, explore the Streamlined IQRN pathway before committing to the standard OBA process.',
+      'If you have 1,800+ hours of RN practice in an NMBA-approved comparable jurisdiction (e.g. UK, Ireland, USA, Canada-BC/ON, Singapore, Spain, NZ) since January 2017, explore the Streamlined IQRN pathway before committing to the standard OBA process.',
       'Australian OSCE sits at AUD $4,000 per attempt. Verify your exact pathway and self-check outcome before making payments.'
     ],
     statesOrProvincesSupported: [
